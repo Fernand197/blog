@@ -2,10 +2,11 @@
 
 namespace App\Models;
 
-use App\Models\Post;
-use App\Models\User;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\hasRelations\morphMany;
+use Illuminate\Database\Eloquent\HasRelationships\morphTo;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Comment extends Model
 {
@@ -17,7 +18,7 @@ class Comment extends Model
     /**
      * Get the post that owns the Comment
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return BelongsTo
      */
     public function post()
     {
@@ -27,7 +28,7 @@ class Comment extends Model
     /**
      * Get the user that owns the Comment
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return BelongsTo
      */
     public function user()
     {
@@ -36,9 +37,9 @@ class Comment extends Model
 
     /**
      * Get the parent commentable model (Post or Comment)
-    *
-    * @return \Illuminate\Database\Eloquent\HasRelationships\morphTo
-    */
+     *
+     * @return morphTo
+     */
     public function commentable()
     {
         return $this->morphTo();
@@ -47,7 +48,7 @@ class Comment extends Model
     /**
      * Get all of the replies for the Comment
      *
-     * @return \Illuminate\Database\Eloquent\hasRelations\morphMany
+     * @return morphMany
      */
     public function comments()
     {

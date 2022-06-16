@@ -15,11 +15,15 @@ class CreateTagsTable extends Migration
     {
         Schema::create('tags', function (Blueprint $table) {
             $table->id();
-            $table->string('body');
+            $table->string('title')->unique();
+            $table->text('description')->nullable();
+            $table->string('slug')->unique();
+            $table->unsignedInteger('color_id')->nullable();
+            $table->unsignedInteger('image_id')->nullable();
             $table->timestamps();
         });
     }
-
+    
     /**
      * Reverse the migrations.
      *

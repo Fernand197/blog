@@ -2,12 +2,12 @@
 
 namespace App\Models;
 
-use App\Models\Tag;
-use App\Models\User;
-use App\Models\Comment;
-use App\Models\Category;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\HasRelationships\morphMany;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+
 
 class Post extends Model
 {
@@ -17,16 +17,10 @@ class Post extends Model
     // protected $with = ['user', 'comments', 'tags', 'categories'];
 
     /**
-     * Get the user that owns the Post
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-    */
-
-    /**
      * Get all of the comments for the Post
-    *
-    * @return \Illuminate\Database\Eloquent\HasRelationships\morphMany
-    */
+     *
+     * @return morphMany
+     */
     public function comments()
     {
         return $this->morphMany(Comment::class, 'commentable');
@@ -34,9 +28,9 @@ class Post extends Model
 
     /**
      * The categories that belong to the Post
-    *
-    * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
-    */
+     *
+     * @return BelongsToMany
+     */
     public function categories()
     {
         return $this->belongsToMany(Category::class);
@@ -44,9 +38,9 @@ class Post extends Model
 
     /**
      * The tags that belong to the Post
-    *
-    * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
-    */
+     *
+     * @return BelongsToMany
+     */
     public function tags()
     {
         return $this->belongsToMany(Tag::class);
@@ -55,7 +49,7 @@ class Post extends Model
     /**
      * Get the user that owns the Post
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return BelongsTo
      */
     public function user()
     {

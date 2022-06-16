@@ -15,17 +15,17 @@ class CreatePostsTable extends Migration
     {
         Schema::create('posts', function (Blueprint $table) {
             $table->id();
-            $table->integer('user_id')->unsigned();
-            $table->string('title');
-            $table->string('image')->nullable();
+            $table->string('title')->unique();
             $table->string('slug')->unique();
-            $table->text('body');
+            $table->fullText('content');
+            $table->text('description')->nullable();
             $table->boolean('published')->default(false);
             $table->timestamp('published_at')->nullable();
+            $table->integer('user_id')->unsigned();
             $table->timestamps();
         });
     }
-
+    
     /**
      * Reverse the migrations.
      *

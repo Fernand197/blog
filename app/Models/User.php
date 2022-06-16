@@ -2,13 +2,13 @@
 
 namespace App\Models;
 
-use App\Models\Post;
-use App\Models\Comment;
-use Laravel\Sanctum\HasApiTokens;
-use Illuminate\Notifications\Notifiable;
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
+use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
+use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
@@ -43,13 +43,15 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
-
+    /**
+     * @var mixed
+     */
 
 
     /**
      * Get all of the comments for the User
      *
-     * @return \Illuminate\Database\Eloquent\Relations\HasManyThrough
+     * @return HasManyThrough
      */
     public function comments()
     {
@@ -59,10 +61,26 @@ class User extends Authenticatable
     /**
      * Get all of the posts for the User
      *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return HasMany
      */
-    public function posts()
+    public function posts(): HasMany
     {
         return $this->hasMany(Post::class);
+    }
+
+
+    public function followers(): MorphToMany
+    {
+        return $this->morphToMany(__CLASS__, 'followable');
+    }
+
+    public function followings(): MorphToMany
+    {
+        return $this->morphedByMany(__CLASS__, 'followable');
+    }
+
+    public function followings_tags(): MorphToMany
+    {
+        return $this->morphedByMany(Tag::class, 'followable');
     }
 }

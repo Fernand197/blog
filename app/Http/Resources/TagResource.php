@@ -2,21 +2,28 @@
 
 namespace App\Http\Resources;
 
+use Illuminate\Contracts\Support\Arrayable;
+use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use JsonSerializable;
 
 class TagResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return array|\Illuminate\Contracts\Support\Arrayable|\JsonSerializable
+     * @param  Request  $request
+     *
+     * @return array|Arrayable|JsonSerializable
      */
     public function toArray($request)
     {
         return [
-            'id' => $this->id,
-            'body' => $this->body,
+            'id'          => $this->id,
+            'title'       => $this->title,
+            'description' => $this->description,
+            'slug'        => $this->slug,
+            'posts'       => (new PostCollection($this->whenLoaded("posts"))),
         ];
     }
 }
